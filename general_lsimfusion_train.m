@@ -14,7 +14,7 @@ mkdir(results_dir)
 
 model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};% tiny, seq, dgdss, x_joint
 
-model_name_all = {'x_joint'};
+
 channel_num = 2;
 sleepedf_num = 20;
 preprocess_apply = 0;
@@ -170,7 +170,7 @@ for km = 1:length(model_name_all)
 
         end
 
-        save(['lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
+        save(['.\results\lsim models\lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
     end
 
 
@@ -209,7 +209,7 @@ for km = 1:length(model_name_all)
 
         end
 
-        save(['flbss_',num2str(channel_num),'ch_',model_name,'.mat'],'lbss')
+        save(['.\results\lbss features\flbss_',num2str(channel_num),'ch_',model_name,'.mat'],'lbss')
     end
 
 end

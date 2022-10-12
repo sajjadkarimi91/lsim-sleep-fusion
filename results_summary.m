@@ -7,12 +7,8 @@ mydir = pwd;
 idcs = strfind(mydir,filesep);
 % second parent folder contains the datasets
 
-results_dir = [mydir(1:idcs(end-1)-1),'/Results/',mydir(idcs(end-1)+1:end)];
-addpath([mydir(1:idcs(end-1)-1),'/lsim karimi toolbox'])
-mkdir(results_dir)
-
 model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};
-type_fusion_all = {'', 'p', 'pool'};
+type_fusion_all = {'', 'pool'};
 channel_num = 3;
 sleepedf_num = 20;
 
@@ -23,7 +19,7 @@ for k = 1:length(model_name_all)
     load(['output_',model_name,'.mat'])
 
     for i = 1:length(type_fusion_all)
-        load([type_fusion_all{i},'res_',num2str(channel_num),'ch_',model_name,'.mat'],"y_true","y_test","para_best")
+        load([type_fusion_all{i},'res_',num2str(channel_num),'ch_',model_name,'.mat'],"y_true","y_test")
         [acc, kappa , f1, sens, spec] = calculate_overall_metrics(y_true, y_test);
         acc_lsim(k,i) = acc;
         f1_lsim(k,i) = f1;
@@ -112,21 +108,4 @@ for k = 1:length(model_name_all)
 end
 
 
-%%
-
-% 
-% for k = 1:length(model_name_all)
-% 
-%     model_name = model_name_all{1,k};
-%     load(['output_',model_name,'.mat'])
-% 
-%     for i = 1:2
-%         load(['sres_',num2str(channel_num),'ch_',model_name,'_',num2str(i-1),'.mat'])
-%         [acc, kappa , f1, sens, spec] = calculate_overall_metrics(y_true3, y_test3);
-%         acc_slsim(k,i) = acc;
-%         f1_slsim(k,i) = f1;
-%         kappa_slsim(k,i) = kappa;
-%     end
-%     
-% end
 

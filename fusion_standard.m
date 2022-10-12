@@ -29,7 +29,6 @@ for km = 1:length(model_name_all)
     load(['output_',model_name,'.mat'])
     load(['flbss_',num2str(channel_num),'ch_',model_name,'.mat'])
 
-
     %% LSIM test on best likelihood model
 
     max_r = size(lbss,3);
@@ -115,7 +114,7 @@ for km = 1:length(model_name_all)
     end
 
     [acc, kappa , f1, sens, spec] = calculate_overall_metrics(y_true, y_test);
-    save(['res_',num2str(channel_num),'ch_',model_name,'_',num2str(feature_sel),'.mat'],'kappa','acc',"y_true","y_test","para_best")
+    save(['.\results\lsim fusion\res_',num2str(channel_num),'ch_',model_name,'_',num2str(feature_sel),'.mat'],'kappa','acc',"y_true","y_test","para_best")
 
 
     disp(['res_',num2str(channel_num),'ch_',model_name])

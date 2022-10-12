@@ -91,10 +91,10 @@ for km = 1:length(model_name_all)
     end
     
     [acc, kappa , f1, sens, spec] = calculate_overall_metrics(y_true, y_test);
-    save(['poolres_',num2str(channel_num),'ch_',model_name,'_',num2str(feature_sel),'.mat'],'kappa','acc',"y_true","y_test")
+    save(['.\results\lsim fusion\poolres_',num2str(channel_num),'ch_',model_name,'_',num2str(feature_sel),'.mat'],'kappa','acc',"y_true","y_test")
     
     
-    disp(['pres_',num2str(channel_num),'ch_',model_name])
+    disp(['poolres_',num2str(channel_num),'ch_',model_name])
     disp([acc,kappa,f1])
     
 end

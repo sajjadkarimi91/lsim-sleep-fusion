@@ -8,7 +8,7 @@ idcs = strfind(mydir,filesep);
 % second parent folder contains the datasets
 
 
-model_name_all = {'dgdss','fe','feembd','feemd','femrslsimmlr', 'tiny', 'seq', 'x_joint', 'x_jointfuse'};% {'dgdss', 'tiny', 'seq', 'x_joint'};
+model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint', 'x_jointfuse','seqfused'};% {'dgdss', 'tiny', 'seq', 'x_joint'};
 channel_num = 2;
 sleepedf_num = 20;
 
