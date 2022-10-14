@@ -9,11 +9,12 @@ idcs = strfind(mydir,filesep);
 % second parent folder contains the datasets
 
 results_dir = [mydir(1:idcs(end-1)-1),'/Results/',mydir(idcs(end-1)+1:end)];
-addpath([mydir(1:idcs(end-1)-1),'/lsim karimi toolbox'])
 mkdir(results_dir)
 
-model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};% tiny, seq, dgdss, x_joint
+lsim_path = [mydir(1:idcs(end-1)-1),'/chmm-lsim-karimi-toolbox'];% enter the path of LSIM toolbox
+addpath(lsim_path)
 
+model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};% tiny, seq, dgdss, x_joint
 
 channel_num = 2;
 sleepedf_num = 20;
