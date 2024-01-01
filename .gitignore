@@ -1,7 +1,6 @@
-
+results/
 toolboxes/
 dataset/
 *.asv
-*.mat
 *.fig
 
