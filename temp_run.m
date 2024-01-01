@@ -1,4 +1,24 @@
 
+% git remote add chmm-lsim-matlab-toolbox https://github.com/sajjadkarimi91/chmm-lsim-matlab-toolbox
+% git subtree add --prefix=chmm-lsim-matlab-toolbox/ chmm-lsim-matlab-toolbox main --squash  
+
+model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};
+
+for km = 1:length(model_name_all)
+
+    % testing 2or3 -channel LSIM
+    model_name = model_name_all{km};
+    load(['output_',model_name,'.mat'])
+    for i = 1:size(hingeloss_traintest,1)
+        for j = 1:size(hingeloss_traintest,2)
+            hingeloss_traintest{i,j} = round(hingeloss_traintest{i,j},6);
+        end
+    end
+    save(['output_',model_name,'.mat'],'hingeloss_traintest','fold_number','CV_number','true_label')
+end
+
+
+
 load('res_2ch_seq.mat', 'para_best')
 x3 = para_best(:,3);
 load('res_2ch_dgdss.mat', 'para_best')

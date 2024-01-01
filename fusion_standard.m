@@ -1,37 +1,34 @@
-
-clear
-close all
-
-close all
-clc
-clear
+close all; clc; clear;
 addpath(genpath(pwd))
 
+%% path configs
 mydir = pwd;
 idcs = strfind(mydir,filesep);
-% second parent folder contains the datasets
 
-results_dir = [mydir(1:idcs(end-1)-1),'/Results/',mydir(idcs(end-1)+1:end)];
-addpath([mydir(1:idcs(end-1)-1),'/lsim karimi toolbox'])
+results_dir = [mydir(1:idcs(end-1)-1),'/Results/',mydir(idcs(end-1)+1:end)]; % your folder path for saving results
+lsim_path = [mydir(1:idcs(end-1)-1),'/chmm-lsim-matlab-toolbox'];  % download from https://github.com/sajjadkarimi91/chmm-lsim-matlab-toolbox
+
+addpath(lsim_path)
 mkdir(results_dir)
 
+%% model config
+
 model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};
-model_name_all = {'x_joint'};
-channel_num = 2;
+channel_num = 3; % can be 2 or 3 for channel fusion
+
 sleepedf_num = 20;
-feature_sel = 0;
+feature_sel = 0; % for paper
 load(['data_split_scratch_trainingchk_',num2str(sleepedf_num),'.mat'])
 
 for km = 1:length(model_name_all)
 
-    %% testing 2or3 -channel LSIM
+    % testing 2or3 -channel LSIM
     model_name = model_name_all{km};
     load(['output_',model_name,'.mat'])
     load(['flbss_',num2str(channel_num),'ch_',model_name,'.mat'])
 
-    %% LSIM test on best likelihood model
-
-    max_r = size(lbss,3);
+    % LSIM test on best likelihood model
+    max_r = size(lbss,3); % repeat number for LSIM that was set 1 for saving time
     num_lsim = size(lbss,1);
     CV_number = size(lbss,2);
 
