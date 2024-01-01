@@ -1,6 +1,6 @@
-# Automated-EEG-Sleep-Staging
+# A New Post-Processing Method Using Latent Structure Influence Models for Channel Fusion in Automatic Sleep Staging
 
-A MATLAB toolbox for EEG-based Sleep Stage Classification from preprocessing, feature extraction, feature selection, dimension reduction, and classification using SVM and KNN.
+MATLAB codes for reproducing the paper results.
 
 Codes and data for the following paper are extended to different methods:
 
