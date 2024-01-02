@@ -1,26 +1,24 @@
-
-clc
-clear
-
+close all; clc; clear;
 addpath(genpath(pwd))
 
-mydir = pwd;
-idcs = strfind(mydir,filesep);
-% second parent folder contains the datasets
+%% path setting
 
-results_dir = [mydir(1:idcs(end-1)-1),'/Results/',mydir(idcs(end-1)+1:end)];
-mkdir(results_dir)
+lbss_save_dir = './results/lbss features'; % A folder path for saving results
+model_save_dir = './results/lsim models';
+lsim_path = './chmm-lsim-matlab-toolbox';  % download from https://github.com/sajjadkarimi91/chmm-lsim-matlab-toolbox
 
-lsim_path = [mydir(1:idcs(end-1)-1),'/chmm-lsim-karimi-toolbox'];% enter the path of LSIM toolbox
 addpath(lsim_path)
+mkdir(lbss_save_dir)
+mkdir(model_save_dir)
+
+%% model config
 
 model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};% tiny, seq, dgdss, x_joint
-
 channel_num = 2;
 sleepedf_num = 20;
 preprocess_apply = 0;
 
-%% testing 2or3 -channel LSIM
+%% train & test 2or3 -channel LSIM
 
 for km = 1:length(model_name_all)
 
@@ -113,7 +111,7 @@ for km = 1:length(model_name_all)
     if C==2 && sleepedf_num==20
         for i = 1:CV_number
             for ch=1:C
-                %to prevent out of memory error break data in to groups
+                %to prevent out of memory error, data is splitted in to smaller groups
                 t_half = round(size(hingeloss_traintest{ch,i},2)/2);
                 lsim_hingeloss_traintest{ch, i,1}= hingeloss_traintest{ch,i}(:,1:t_half);
                 lsim_hingeloss_traintest{ch, i,2}= hingeloss_traintest{ch,i}(:,t_half:end);
@@ -122,7 +120,7 @@ for km = 1:length(model_name_all)
     elseif C==3 && sleepedf_num==20
         for i = 1:CV_number
             for ch=1:C
-                %to prevent out of memory error break data in to groups
+                %to prevent out of memory error, data is splitted in to smaller groups
                 t_third = round(size(hingeloss_traintest{ch,i},2)/3);
                 lsim_hingeloss_traintest{ch, i,1}= hingeloss_traintest{ch,i}(:,1:t_third);
                 lsim_hingeloss_traintest{ch, i,2}= hingeloss_traintest{ch,i}(:,t_third:2*t_third);
@@ -137,9 +135,9 @@ for km = 1:length(model_name_all)
     extra.check_convergence=0;
     extra.sigma_diag = 1;
 
-    state_numbers_grid = [5,10,15,20,25];
+    state_numbers_grid = [5,10,15,20,25]; % number of states
 
-    num_gmm_component_grid = [1*ones(1,length(state_numbers_grid)),2*ones(1,length(state_numbers_grid))];
+    num_gmm_component_grid = [1*ones(1,length(state_numbers_grid)),2*ones(1,length(state_numbers_grid))]; % number of GMMs
     state_numbers_grid = [state_numbers_grid,state_numbers_grid];
     counter = 0;
 
@@ -171,7 +169,7 @@ for km = 1:length(model_name_all)
 
         end
 
-        save(['.\results\lsim models\lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
+        save([model_save_dir,'/lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
     end
 
 
@@ -210,7 +208,7 @@ for km = 1:length(model_name_all)
 
         end
 
-        save(['.\results\lbss features\flbss_',num2str(channel_num),'ch_',model_name,'.mat'],'lbss')
+        save([lbss_save_dir,'/flbss_',num2str(channel_num),'ch_',model_name,'.mat'],'lbss')
     end
 
 end
