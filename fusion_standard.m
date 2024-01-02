@@ -2,14 +2,12 @@ close all; clc; clear;
 addpath(genpath(pwd))
 
 %% path configs
-mydir = pwd;
-idcs = strfind(mydir,filesep);
 
-results_dir = [mydir(1:idcs(end-1)-1),'/Results/',mydir(idcs(end-1)+1:end)]; % your folder path for saving results
-lsim_path = [mydir(1:idcs(end-1)-1),'/chmm-lsim-matlab-toolbox'];  % download from https://github.com/sajjadkarimi91/chmm-lsim-matlab-toolbox
+lsim_fusion_path = './results/lsim fusion'; % A folder path for saving results
+lsim_path = './chmm-lsim-matlab-toolbox';  % download from https://github.com/sajjadkarimi91/chmm-lsim-matlab-toolbox
 
 addpath(lsim_path)
-mkdir(results_dir)
+mkdir(lsim_fusion_path)
 
 %% model config
 
@@ -111,7 +109,7 @@ for km = 1:length(model_name_all)
     end
 
     [acc, kappa , f1, sens, spec] = calculate_overall_metrics(y_true, y_test);
-    save(['.\results\lsim fusion\res_',num2str(channel_num),'ch_',model_name,'_',num2str(feature_sel),'.mat'],'kappa','acc',"y_true","y_test","para_best")
+    save([lsim_fusion_path,'/res_',num2str(channel_num),'ch_',model_name,'_',num2str(feature_sel),'.mat'],'kappa','acc',"y_true","y_test","para_best")
 
 
     disp(['res_',num2str(channel_num),'ch_',model_name])

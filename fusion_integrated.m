@@ -2,13 +2,12 @@ close all; clc; clear;
 addpath(genpath(pwd))
 
 %% path configs
-mydir = pwd;
-idcs = strfind(mydir,filesep);
-% second parent folder contains the datasets
 
-results_dir = [mydir(1:idcs(end-1)-1),'/Results/',mydir(idcs(end-1)+1:end)]; % A folder path for saving results
-addpath([mydir(1:idcs(end-1)-1),'/chmm-lsim-matlab-toolbox']) % download from https://github.com/sajjadkarimi91/chmm-lsim-matlab-toolbox
-mkdir(results_dir)
+lsim_fusion_path = './results/lsim fusion'; % A folder path for saving results
+lsim_path = './chmm-lsim-matlab-toolbox';  % download from https://github.com/sajjadkarimi91/chmm-lsim-matlab-toolbox
+
+addpath(lsim_path)
+mkdir(lsim_fusion_path)
 
 %% model config
 model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};
@@ -85,7 +84,7 @@ for km = 1:length(model_name_all)
     end
 
     [acc, kappa , f1, sens, spec] = calculate_overall_metrics(y_true, y_test);
-    save(['.\results\lsim fusion\poolres_',num2str(channel_num),'ch_',model_name,'_',num2str(feature_sel),'.mat'],'kappa','acc',"y_true","y_test")
+    save([lsim_fusion_path,'/poolres_',num2str(channel_num),'ch_',model_name,'_',num2str(feature_sel),'.mat'],'kappa','acc',"y_true","y_test")
 
 
     disp(['poolres_',num2str(channel_num),'ch_',model_name])
