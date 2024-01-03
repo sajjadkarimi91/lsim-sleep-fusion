@@ -12,7 +12,7 @@ mkdir(lsim_fusion_path)
 %% model config
 
 model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};
-channel_num = 3; % can be 2 or 3 for channel fusion
+channel_num = 2; % can be 2 or 3 for channel fusion
 
 sleepedf_num = 20;
 feature_sel = 0; % for paper
