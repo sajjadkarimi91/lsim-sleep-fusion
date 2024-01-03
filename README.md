@@ -45,14 +45,6 @@ The output hypnogram of the proposed integrated LSIM fusion of three channels pr
 of selected baseline systems for the Fpz-Cz channel in subject 2.
 ![The output hypnogram](/hypnogram.png)
 
-  1. Various feature extraction methods, including 
-     * Multiscale permutation entropy
-
-
-  2. Several dimension reduction methods including PCA, LDA and TSNE
-  3. Multiple classifiers SVM, KNN, NeuralNets
-
-
 
 ## 2. Usage & Dependency.
 
@@ -62,4 +54,12 @@ of selected baseline systems for the Fpz-Cz channel in subject 2.
 
 
 ## Usage:
-Run "main_run.m" or "main_binary.m" to analyze the sleep staging.
+Before execution, it is necessary to configure the "channel_num" parameter to either 2 or 3 in all subsequent scripts, depending on whether 2-channel or 3-channel fusion is desired.
+
+1. Run [general_lsimfusion_train.m](./general_lsimfusion_train.m) to train 2 or 3 channels LSIM and extract LBSS features
+2. Run [fusion_standard.m](./fusion_standard.m) to perform standard LSIM fusion
+3. Run [fusion_integrated.m](./fusion_integrated.m) to perform integrated LSIM fusion with better performances
+4. Run [results_summary_fusion.m](./results_summary_fusion.m) to produce results and metrics for proposed Post-Processing method.
+5. Run [results_summary_singlechannel.m](./results_summary_singlechannel.m) to produce results and metrics for original deep sleep staging systems.
+
+
