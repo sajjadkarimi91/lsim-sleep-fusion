@@ -1,6 +1,8 @@
-# A New Post-Processing Method Using Latent Structure Influence Models for Channel Fusion in Automatic Sleep Staging
+# Channel Fusion Using LSIM in Automatic Sleep Staging
 
-MATLAB codes for reproducing the paper results and figures.
+The provided MATLAB codes can be used to replicate the results and generate the figures presented in the following paper.
+
+- S. Karimi and M. B. Shamsollahi, ["A New Post-Processing Method Using Latent Structure Influence Models for Channel Fusion in Automatic Sleep Staging,"](https://ieeexplore.ieee.org/document/9973288) in IEEE Journal of Biomedical and Health Informatics, vol. 27, no. 3, pp. 1569-1578, March 2023, doi: 10.1109/JBHI.2022.3227407.
 
 The codes and data for the papers on Selected Deep Spectrum & Deep Learning Systems have been omitted, and instead, the outputs of these methods are included for easy execution.
 
