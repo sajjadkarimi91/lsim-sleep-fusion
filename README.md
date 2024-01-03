@@ -1,17 +1,14 @@
 # A New Post-Processing Method Using Latent Structure Influence Models for Channel Fusion in Automatic Sleep Staging
 
-MATLAB codes for reproducing the paper results.
+MATLAB codes for reproducing the paper results and figures.
 
-Codes and data for the following paper are extended to different methods:
-
-A New Post-Processing Method using Latent Structure Influence Models for Channel Fusion in Automatic Sleep Staging
-
+The codes and data for the papers on Selected Deep Spectrum & Deep Learning Systems have been omitted, and instead, the outputs of these methods are included for easy execution.
 
 ## 1. Introduction.
 
 This package includes the prototype MATLAB codes for Automated EEG Sleep Staging.
 
-The implemented methodes include: 
+The implemented methods include: 
 
   1. Various feature extraction methods, including 
      * Multiscale permutation entropy
