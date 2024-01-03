@@ -39,7 +39,11 @@ accuracy rates among existing studies.
 
 The structure of the proposed post-processing method for 2-channel PSG with the standard LSIM fusion (red blocks use train labels): 
 
-![proposed post-processing method](/blockdiag.jpg)
+![proposed post-processing method](/blockdiag.png)
+
+The output hypnogram of the proposed integrated LSIM fusion of three channels processed by TinySleepNet and the output hypnograms
+of selected baseline systems for the Fpz-Cz channel in subject 2.
+![The output hypnogram](/hypnogram.png)
 
   1. Various feature extraction methods, including 
      * Multiscale permutation entropy
@@ -54,7 +58,7 @@ The structure of the proposed post-processing method for 2-channel PSG with the 
 
 ## Dependency:
      sleep-edf dataset
-     https://github.com/sajjadkarimi91/SLDR-supervised-linear-dimensionality-reduction-toolbox
+     [chmm-lsim-matlab-toolbox](https://github.com/sajjadkarimi91/chmm-lsim-matlab-toolbox) 
 
 
 ## Usage:
