@@ -165,7 +165,7 @@ for km = 1:length(model_name_all)
                 log_likelihood_all{ss,i,repeat_num} =log_likelihood;
                 BIC_all{ss,i,repeat_num} = BIC;
             end
-            save(['lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
+            save([model_save_dir,'lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
 
         end
 
