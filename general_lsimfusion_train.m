@@ -16,6 +16,7 @@ mkdir(model_save_dir)
 model_name_all = {'dgdss', 'tiny', 'seq', 'x_joint'};% tiny, seq, dgdss, x_joint
 channel_num = 2;
 sleepedf_num = 20;
+force_train = 0; % if force_train =1 then LSIM models always are retrained that needs more than 24 hours time
 preprocess_apply = 0;
 
 %% train & test 2or3 -channel LSIM
@@ -103,77 +104,88 @@ for km = 1:length(model_name_all)
 
     %% training 2or3-channel LSIM
     close all
-
-    clear lsim_gmm_para_all transitions_matrices_all coupling_tetha_all pi_0_all AIC_all log_likelihood_all BIC_all
-    clear lsim_hingeloss_traintest
-
     C = channel_num;
-    if C==2 && sleepedf_num==20
-        for i = 1:CV_number
-            for ch=1:C
-                %to prevent out of memory error, data is splitted in to smaller groups
-                t_half = round(size(hingeloss_traintest{ch,i},2)/2);
-                lsim_hingeloss_traintest{ch, i,1}= hingeloss_traintest{ch,i}(:,1:t_half);
-                lsim_hingeloss_traintest{ch, i,2}= hingeloss_traintest{ch,i}(:,t_half:end);
-            end
-        end
-    elseif C==3 && sleepedf_num==20
-        for i = 1:CV_number
-            for ch=1:C
-                %to prevent out of memory error, data is splitted in to smaller groups
-                t_third = round(size(hingeloss_traintest{ch,i},2)/3);
-                lsim_hingeloss_traintest{ch, i,1}= hingeloss_traintest{ch,i}(:,1:t_third);
-                lsim_hingeloss_traintest{ch, i,2}= hingeloss_traintest{ch,i}(:,t_third:2*t_third);
-                lsim_hingeloss_traintest{ch, i,3}= hingeloss_traintest{ch,i}(:,2*t_third:end);
-            end
-        end
-    end
-
-    max_r = 1;
-    max_itration = 100;
-    extra.plot = 0;
-    extra.check_convergence=0;
-    extra.sigma_diag = 1;
 
     state_numbers_grid = [5,10,15,20,25]; % number of states
 
     num_gmm_component_grid = [1*ones(1,length(state_numbers_grid)),2*ones(1,length(state_numbers_grid))]; % number of GMMs
     state_numbers_grid = [state_numbers_grid,state_numbers_grid];
-    counter = 0;
 
-    for repeat_num = 1:max_r
+    max_r = 1;
 
-        for i = 1:CV_number
-            close all
-            clc
-            counter = counter+1;
-            disp(round(counter*100/(CV_number*max_r)))
+    if ~exist([model_save_dir,'/lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'file') || force_train == 1
 
-            parfor ss = 1:length(state_numbers_grid)
+        clear lsim_gmm_para_all transitions_matrices_all coupling_tetha_all pi_0_all AIC_all log_likelihood_all BIC_all
+        clear lsim_hingeloss_traintest
 
-                channel_num_states = ones(1,C)*state_numbers_grid(ss);
-                num_gmm_component = ones(1,C)*num_gmm_component_grid(ss);
 
-                [pi_0_lsim , coupling_tetha_convex_comb , transition_matrices_convex_comb ,  lsim_gmm_para ,  AIC , log_likelihood , BIC ,pi_steady] = ...
-                    em_lsim( squeeze(lsim_hingeloss_traintest(:, i, :)) , channel_num_states , num_gmm_component , max_itration , extra);
-
-                lsim_gmm_para_all{ss,i,repeat_num} =  lsim_gmm_para;
-                transitions_matrices_all{ss,i,repeat_num} = transition_matrices_convex_comb;
-                coupling_tetha_all{ss,i,repeat_num} = coupling_tetha_convex_comb;
-                pi_0_all{ss,i,repeat_num} = pi_steady ;
-                AIC_all{ss,i,repeat_num} = AIC;
-                log_likelihood_all{ss,i,repeat_num} =log_likelihood;
-                BIC_all{ss,i,repeat_num} = BIC;
+        if C==2 && sleepedf_num==20
+            for i = 1:CV_number
+                for ch=1:C
+                    %to prevent out of memory error, data is splitted in to smaller groups
+                    t_half = round(size(hingeloss_traintest{ch,i},2)/2);
+                    lsim_hingeloss_traintest{ch, i,1}= hingeloss_traintest{ch,i}(:,1:t_half);
+                    lsim_hingeloss_traintest{ch, i,2}= hingeloss_traintest{ch,i}(:,t_half:end);
+                end
             end
-            save([model_save_dir,'lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
-
+        elseif C==3 && sleepedf_num==20
+            for i = 1:CV_number
+                for ch=1:C
+                    %to prevent out of memory error, data is splitted in to smaller groups
+                    t_third = round(size(hingeloss_traintest{ch,i},2)/3);
+                    lsim_hingeloss_traintest{ch, i,1}= hingeloss_traintest{ch,i}(:,1:t_third);
+                    lsim_hingeloss_traintest{ch, i,2}= hingeloss_traintest{ch,i}(:,t_third:2*t_third);
+                    lsim_hingeloss_traintest{ch, i,3}= hingeloss_traintest{ch,i}(:,2*t_third:end);
+                end
+            end
         end
 
-        save([model_save_dir,'/lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
+
+        max_itration = 100;
+        extra.plot = 0;
+        extra.check_convergence=0;
+        extra.sigma_diag = 1;
+
+
+        counter = 0;
+
+        for repeat_num = 1:max_r
+
+            for i = 1:CV_number
+                close all
+                clc
+                counter = counter+1;
+                disp(round(counter*100/(CV_number*max_r)))
+
+                parfor ss = 1:length(state_numbers_grid)
+
+                    channel_num_states = ones(1,C)*state_numbers_grid(ss);
+                    num_gmm_component = ones(1,C)*num_gmm_component_grid(ss);
+
+                    [pi_0_lsim , coupling_tetha_convex_comb , transition_matrices_convex_comb ,  lsim_gmm_para ,  AIC , log_likelihood , BIC ,pi_steady] = ...
+                        em_lsim( squeeze(lsim_hingeloss_traintest(:, i, :)) , channel_num_states , num_gmm_component , max_itration , extra);
+
+                    lsim_gmm_para_all{ss,i,repeat_num} =  lsim_gmm_para;
+                    transitions_matrices_all{ss,i,repeat_num} = transition_matrices_convex_comb;
+                    coupling_tetha_all{ss,i,repeat_num} = coupling_tetha_convex_comb;
+                    pi_0_all{ss,i,repeat_num} = pi_steady ;
+                    AIC_all{ss,i,repeat_num} = AIC;
+                    log_likelihood_all{ss,i,repeat_num} =log_likelihood;
+                    BIC_all{ss,i,repeat_num} = BIC;
+                end
+                save([model_save_dir,'lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
+
+            end
+
+            save([model_save_dir,'/lsim_',num2str(channel_num),'ch_',model_name,'.mat'],'lsim_gmm_para_all','transitions_matrices_all','coupling_tetha_all','pi_0_all','AIC_all','log_likelihood_all','BIC_all')
+        end
+
     end
 
-
     %% test lsim
+
+    load([model_save_dir,'/lsim_',num2str(channel_num),'ch_',model_name,'.mat'])
+
     clear lsim_hingeloss_traintest
     for i = 1:CV_number
         for ch=1:C

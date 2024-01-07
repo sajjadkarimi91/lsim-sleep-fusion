@@ -1,4 +1,5 @@
-results/
+results/lbss features/
+results/lsim fusion/
 toolboxes/
 dataset/
 *.asv
