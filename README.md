@@ -5,6 +5,8 @@ The provided MATLAB codes can be used to replicate the results and generate the 
 - S. Karimi and M. B. Shamsollahi, ["A New Post-Processing Method Using Latent Structure Influence Models for Channel Fusion in Automatic Sleep Staging,"](https://ieeexplore.ieee.org/document/9973288) in IEEE Journal of Biomedical and Health Informatics, vol. 27, no. 3, pp. 1569-1578, March 2023, doi: 10.1109/JBHI.2022.3227407.
 
 The codes and data for the papers on Selected Deep Spectrum & Deep Learning Systems have been omitted, and instead, the outputs of these methods are included for easy execution.
+I would like to express my gratitude to Huy Phan (pquochuy) for generously providing the codes for xsleepnet and seqsleepnet. Additionally, I would like to thank Hau-Tieng Wu for sharing the codes for the DGDSS method. 
+
 
 ## 1. Introduction.
 
@@ -58,10 +60,12 @@ of selected baseline systems for the Fpz-Cz channel in subject 2.
 ## Usage:
 Before execution, it is necessary to configure the "channel_num" parameter to either 2 or 3 in all subsequent scripts, depending on whether 2-channel or 3-channel fusion is desired.
 
-1. Run [general_lsimfusion_train.m](./general_lsimfusion_train.m) to train 2 or 3 channels LSIM and extract LBSS features
-2. Run [fusion_standard.m](./fusion_standard.m) to perform standard LSIM fusion
-3. Run [fusion_integrated.m](./fusion_integrated.m) to perform integrated LSIM fusion with better performances
-4. Run [results_summary_fusion.m](./results_summary_fusion.m) to produce results and metrics for proposed Post-Processing method.
-5. Run [results_summary_singlechannel.m](./results_summary_singlechannel.m) to produce results and metrics for original deep sleep staging systems.
+1. Run [general_lsimfusion_train.m](./general_lsimfusion_train.m) to train 2 or 3 channels LSIM and extract LBSS features.
+   
+   Note: We uploaded trained LSIM models for fast execution and exact reproduction of results. If you are interested in training from scratch, you can set force_train=1 in Line#11
+3. Run [fusion_standard.m](./fusion_standard.m) to perform standard LSIM fusion
+4. Run [fusion_integrated.m](./fusion_integrated.m) to perform integrated LSIM fusion with better performances
+5. Run [results_summary_fusion.m](./results_summary_fusion.m) to produce results and metrics for proposed Post-Processing method.
+6. Run [results_summary_singlechannel.m](./results_summary_singlechannel.m) to produce results and metrics for original deep sleep staging systems.
 
 
